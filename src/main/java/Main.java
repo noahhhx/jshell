@@ -2,6 +2,7 @@ import commands.CommandRegistry;
 import commands.ShellContext;
 import commands.builtin.Echo;
 import commands.builtin.Exit;
+import commands.builtin.Type;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -36,5 +37,6 @@ public class Main {
     private static void registerBuiltIns() {
         registry.register(new Exit());
         registry.register(new Echo());
+        registry.register(new Type(registry));
     }
 }
