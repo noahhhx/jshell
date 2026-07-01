@@ -38,6 +38,16 @@ class ShellProcess implements AutoCloseable {
         return stdout.readLine();
     }
 
+    String read(int numChars) throws IOException {
+        StringBuilder sb = new StringBuilder(numChars);
+        for (int i = 0; i < numChars; i++) {
+            int c = stdout.read();
+            if (c == -1) break;
+            sb.append((char) c);
+        }
+        return sb.toString();
+    }
+
     void writeLine(String line) throws IOException {
         stdin.write(line);
         stdin.write("\n");
