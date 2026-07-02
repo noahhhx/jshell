@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  *       ...
  *   }
  */
-class ShellProcess implements AutoCloseable {
+public class ShellProcess implements AutoCloseable {
 
     private static final String JAVA = System.getProperty("java.home") + "/bin/java";
 
@@ -26,7 +26,7 @@ class ShellProcess implements AutoCloseable {
     private final BufferedReader stdout;
     private final Writer stdin;
 
-    ShellProcess() throws IOException {
+    public ShellProcess() throws IOException {
         ProcessBuilder pb = new ProcessBuilder(
                 JAVA, "--enable-preview", "-cp", "target/classes", "Main");
         process = pb.start();
@@ -34,11 +34,11 @@ class ShellProcess implements AutoCloseable {
         stdin = new OutputStreamWriter(process.getOutputStream());
     }
 
-    String readLine() throws IOException {
+    public String readLine() throws IOException {
         return stdout.readLine();
     }
 
-    String read(int numChars) throws IOException {
+    public String read(int numChars) throws IOException {
         StringBuilder sb = new StringBuilder(numChars);
         for (int i = 0; i < numChars; i++) {
             int c = stdout.read();
@@ -48,7 +48,7 @@ class ShellProcess implements AutoCloseable {
         return sb.toString();
     }
 
-    void writeLine(String line) throws IOException {
+    public void writeLine(String line) throws IOException {
         stdin.write(line);
         stdin.write("\n");
         stdin.flush();
