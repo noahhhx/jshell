@@ -1,12 +1,13 @@
 package commands.builtin;
 
 import commands.ShellContext;
+import commands.StdReturn;
 
 public abstract class BuiltIn {
 
-    public abstract void execute(String[] argument, ShellContext ctx);
-
+    public abstract StdReturn execute(String[] argument, ShellContext ctx);
+    
     public abstract String getHelp();
-
+    
     public abstract String getName();
 }

@@ -1,7 +1,10 @@
 package commands;
 
 import commands.builtin.BuiltIn;
+import helper.Redirect;
+import helper.StreamHandler;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,10 +25,15 @@ public class CommandRegistry {
         return commands.containsKey(command);
     }
 
-    public void execute(String name, String[] args, ShellContext ctx) {
-        get(name)
-              .ifPresentOrElse(cmd -> cmd.execute(args, ctx),
-                    () -> externalCommand.execute(name, args));
+    public void execute(String name, List<String> args, Redirect redirect, ShellContext ctx) {
+        StdReturn stdReturn;
+        Optional<BuiltIn> command = get(name);
+        if (command.isPresent()) {
+            stdReturn = command.get().execute(args.toArray(new String[0]), ctx);
+        } else {
+            stdReturn = externalCommand.execute(name, args.toArray(new String[0]));
+        }
+        StreamHandler.handle(stdReturn, redirect);
     }
 
 }
